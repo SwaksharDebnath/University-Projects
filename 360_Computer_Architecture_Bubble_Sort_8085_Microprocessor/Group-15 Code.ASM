@@ -1,0 +1,44 @@
+	 LXI H,0FF4H
+         MOV A,M
+         CPI 01H
+	 JNZ DSC
+ASC:   LXI H,0FF5H
+ 	 MVI D,00H
+	 MOV C,M
+	 INX H
+CHECK:   MOV A,M
+	 INX H
+	 CMP M
+	 JC NXTBYT
+	 MOV B,M
+	 MOV M,A
+	 DCX H
+	 MOV M,B
+	 INX H
+	 MVI D,01H
+NXTBYT:  DCR C
+	 JNZ CHECK
+	 MOV A,D
+	 RRC
+	 JC ASC
+	 HLT
+DSC:   LXI H,0FF5H
+ 	 MVI D,00H
+	 MOV C,M
+	 INX H
+CHECK1:   MOV A,M
+	 INX H
+	 CMP M
+	 JNC NXTBYT1
+	 MOV B,M
+	 MOV M,A
+	 DCX H
+	 MOV M,B
+	 INX H
+	 MVI D,01H
+NXTBYT1:  DCR C
+	 JNZ CHECK1
+	 MOV A,D
+	 RRC
+	 JC DSC
+	 HLT
